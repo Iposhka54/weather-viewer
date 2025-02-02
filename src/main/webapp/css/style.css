@@ -1,0 +1,30 @@
+body {
+    min-height: 100vh;
+}
+
+section#page-content {
+    min-height: calc(100vh - 164px);
+}
+
+.weather-card .weather-card-delete-form {
+    top: 8px;
+    right: 8px;
+}
+
+.weather-card img {
+    max-height: 150px;
+    object-fit: contain;
+}
+
+.weather-logo {
+    background-image: url("images/weather-app.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    min-height: 250px;
+}
+
+.location-search-input-group .clear-input-button {
+    border-color: rgb(222, 226, 230);
+}
