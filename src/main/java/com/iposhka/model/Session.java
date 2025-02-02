@@ -18,7 +18,7 @@ public class Session {
     @Column(name = "id", unique = true, nullable = false, length = 36)
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
