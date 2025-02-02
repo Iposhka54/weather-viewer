@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class Session {
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)
-    private String id;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
