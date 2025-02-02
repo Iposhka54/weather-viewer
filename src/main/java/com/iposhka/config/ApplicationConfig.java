@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,11 +17,13 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 @ComponentScan("com.iposhka")
 @EnableWebMvc
 public class ApplicationConfig implements WebMvcConfigurer {
-    ApplicationContext context;
+    private final ApplicationContext context;
+    private final Environment environment;
 
     @Autowired
-    public ApplicationConfig(ApplicationContext context){
+    public ApplicationConfig(ApplicationContext context, Environment environment){
         this.context = context;
+        this.environment = environment;
     }
 
     @Bean
