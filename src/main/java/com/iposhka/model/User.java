@@ -27,9 +27,11 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Location> locations = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Session> sessions = new ArrayList<>();
 }

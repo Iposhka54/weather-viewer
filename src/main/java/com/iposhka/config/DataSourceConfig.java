@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -12,6 +13,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Component
+@PropertySource("classpath:application.properties")
 public class DataSourceConfig {
     private final Environment environment;
 
@@ -23,9 +25,11 @@ public class DataSourceConfig {
     public DataSource dataSource(){
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName(environment.getProperty("spring.datasource.driver-class"));
-        hikariConfig.setJdbcUrl(environment.getProperty("spring.datasource.url"));
-        hikariConfig.setUsername(environment.getProperty("spring.database.username"));
-        hikariConfig.setPassword(environment.getProperty("spring.database.password"));
+        String url = environment.getProperty("spring.datasource.url");
+        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setUsername(environment.getProperty("spring.datasource.username"));
+        String pass = environment.getProperty("spring.datasource.password");
+        hikariConfig.setPassword(pass);
         hikariConfig.setMaximumPoolSize(Integer.parseInt(environment.getProperty("spring.datasource.hikari.maximum-pool-size", "10")));
         return new HikariDataSource(hikariConfig);
     }

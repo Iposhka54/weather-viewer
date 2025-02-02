@@ -18,12 +18,10 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 @EnableWebMvc
 public class ApplicationConfig implements WebMvcConfigurer {
     private final ApplicationContext context;
-    private final Environment environment;
 
     @Autowired
-    public ApplicationConfig(ApplicationContext context, Environment environment){
+    public ApplicationConfig(ApplicationContext context){
         this.context = context;
-        this.environment = environment;
     }
 
     @Bean
