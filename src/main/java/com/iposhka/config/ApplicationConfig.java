@@ -1,5 +1,7 @@
 package com.iposhka.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,12 @@ public class ApplicationConfig implements WebMvcConfigurer {
     @Autowired
     public ApplicationConfig(ApplicationContext context){
         this.context = context;
+    }
+
+    @Bean
+    public Logger log(){
+        Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
+        return log;
     }
 
     @Bean
