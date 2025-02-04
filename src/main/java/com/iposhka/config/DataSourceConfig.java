@@ -3,17 +3,22 @@ package com.iposhka.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.stereotype.Component;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Component
 @PropertySource("classpath:application.properties")
+@EnableTransactionManagement
 public class DataSourceConfig {
     private final Environment environment;
 
@@ -59,5 +64,10 @@ public class DataSourceConfig {
         factoryBean.setPackagesToScan("com.iposhka.model");
         factoryBean.setHibernateProperties(hibernateProperties());
         return factoryBean;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(SessionFactory sessionFactory){
+        return new HibernateTransactionManager(sessionFactory);
     }
 }
