@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Viewer – Homepage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/images/weather-app.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            Weather Tracker
+        </a>
+        <div class="d-flex align-items-center">
+            <span class="navbar-text me-3">zhukovsd</span>
+            <button class="btn btn-outline-danger">Sign out</button>
+        </div>
+    </div>
+</nav>
+
+<section id="page-content">
+    <div class="container mt-4">
+        <div class="d-flex my-4">
+            <div class="input-group location-search-input-group me-3">
+                <input class="form-control" type="text" name="name" placeholder="Enter location" value="San Francisco"
+                       required>
+                <button class="btn btn-outline-secondary btn-sm clear-input-button" type="button"
+                        onclick="this.previousElementSibling.value=''">
+                    &times;
+                </button>
+            </div>
+            <button class="btn btn-outline-success">Search</button>
+        </div>
+
+        <div>
+            <h2>Locations:</h2>
+            <div class="row">
+                <div class="col-12 col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">San Francisco</h5>
+                            <p class="card-text mb-1">Latitude: 37.7790262</p>
+                            <p class="card-text mb-1">Longitude: -122.419906</p>
+                            <p class="card-text mb-1">Country: US</p>
+                            <p class="card-text mb-3">State: California</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">San Francisco</h5>
+                            <p class="card-text mb-1">Latitude: 8.5050281</p>
+                            <p class="card-text mb-1">Longitude: 125.9771179</p>
+                            <p class="card-text mb-1">Country: PH</p>
+                            <p class="card-text mb-3">State: Agusan del Sur</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">San Francisco</h5>
+                            <p class="card-text mb-1">Latitude: -31.4249815</p>
+                            <p class="card-text mb-1">Longitude: -62.0840299</p>
+                            <p class="card-text mb-1">Country: AR</p>
+                            <p class="card-text mb-3">State: Córdoba</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">San Francisco</h5>
+                            <p class="card-text mb-1">Latitude: 8.2467485</p>
+                            <p class="card-text mb-1">Longitude: -80.9721357</p>
+                            <p class="card-text mb-1">Country: PA</p>
+                            <p class="card-text mb-3">State: Veraguas</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">San Francisco</h5>
+                            <p class="card-text mb-1">Latitude: 5.26902235</p>
+                            <p class="card-text mb-1">Longitude: -72.77388372073908</p>
+                            <p class="card-text mb-1">Country: CO</p>
+                            <p class="card-text mb-3">State: Casanare</p>
+                            <div class="mt-auto">
+                                <button class="btn btn-primary w-100">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top">
+    <div class="px-4">
+        <span>© Weather Viewer, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a> roadmap.</span>
+    </div>
+</footer>
+
+</body>
+</html>

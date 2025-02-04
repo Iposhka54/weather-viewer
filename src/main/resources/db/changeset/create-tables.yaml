@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: iposhka
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                 name: login
+                 type: varchar(128)
+                 constraints:
+                   nullable: false
+                   unique: true
+              - column:
+                  name: password
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: iposhka
+      changes:
+        - createTable:
+            tableName: locations
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: latitude
+                  type: decimal(11, 8)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: longitude
+                  type: decimal(11, 8)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 3
+      author: iposhka
+      changes:
+        - createTable:
+            tableName: sessions
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    unique: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: iposhka
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: locations
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_locations_user
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: sessions
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_sessions_user
+            onDelete: CASCADE
