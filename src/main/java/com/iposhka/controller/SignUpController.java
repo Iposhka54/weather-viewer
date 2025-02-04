@@ -35,15 +35,7 @@ public class SignUpController {
             model.addAttribute("bindingResult", bindingResult);
             return "/sign-up";
         }
-        try {
-            authService.signIn(userDto);
-            return "redirect:/sign-in";
-        } catch (UserAlreadyExistException e){
-            bindingResult.rejectValue("username", "error.username", e.getMessage());
-            model.addAttribute("bindingResult", bindingResult);
-            return "/sign-up";
-        }catch (DatabaseException e){
-            return "/sign-up";
-        }
+        authService.signIn(userDto);
+        return "redirect:/sign-in";
     }
 }
