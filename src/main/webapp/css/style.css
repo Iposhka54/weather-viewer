@@ -17,7 +17,7 @@ section#page-content {
 }
 
 .weather-logo {
-    background-image: url("images/weather-app.png");
+    background-image: url("/images/weather-app.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

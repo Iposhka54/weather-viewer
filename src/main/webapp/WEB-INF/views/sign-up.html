@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Weather Viewer – Sign Up</title>
+    <title>Sign Up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -19,10 +19,11 @@
 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <form action="/sign-up" method="post" class="mt-4" onclick="validatePasswords(event)" th:object="${createUser}">
+            <form th:action="@{/sign-up}" method="post" class="mt-4" onsubmit="validatePasswords(event)" th:object="${createUser}">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required value="" th:field="*{username}"/>
+                    <input type="text" class="form-control" id="username" name="username" required th:value="${createUser.username}" th:field="*{username}"/>
+                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
@@ -30,18 +31,18 @@
                            required
                            minlength="8"
                            maxlength="128"
-                           value=""
                            th:field="*{password}"/>
                 </div>
+                <div class="text-danger mt-1" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
                     <input type="password" class="form-control" id="repeat-password" name="password"
                            required
                            minlength="8"
                            maxlength="128"
-                           value=""
                            th:field="*{repeatedPassword}"/>
                     <div id="password-error" class="text-danger mt-2"></div>
+
                 </div>
 
                 <input type="hidden" name="redirect_to" value="http://localhost/"/>
@@ -62,9 +63,9 @@
 
         if (password !== repeatPassword) {
             errorMessage.textContent = "Passwords do not match!";
-            event.preventDefault(); // Блокируем отправку формы
+            event.preventDefault();
         } else {
-            errorMessage.textContent = ""; // Очищаем сообщение об ошибке
+            errorMessage.textContent = "";
         }
     }
 </script>
