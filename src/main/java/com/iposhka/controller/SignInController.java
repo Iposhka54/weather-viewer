@@ -8,15 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class SignInController {
-    private final Logger log;
-
-    public SignInController(Logger log) {
-        this.log = log;
-    }
 
     @GetMapping("/sign-in")
-    public String signIn(@Valid() Model model){
-        log.debug("Registration page is returned");
+    public String signIn(Model model){
         return "sign-in";
     }
 }
