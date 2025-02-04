@@ -1,10 +1,14 @@
 package com.iposhka.service;
 
 import com.iposhka.dto.CreateUserDto;
+import com.iposhka.exception.DatabaseException;
+import com.iposhka.exception.UserAlreadyExistException;
 import com.iposhka.mapper.UserMapper;
 import com.iposhka.model.User;
 import com.iposhka.repository.UserRepository;
 import com.iposhka.util.CryptUtil;
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +26,12 @@ public class AuthenticationService {
         User entity = userMapper.toEntity(userDto);
         String cryptPassword = CryptUtil.crypt(entity.getPassword());
         entity.setPassword(cryptPassword);
-        userRepository.save(entity);
+        try{
+            userRepository.save(entity);
+        }catch (ConstraintViolationException e){
+            throw new UserAlreadyExistException("A user with this username already exists");
+        }catch (HibernateException e){
+            throw new DatabaseException("Any problems with database");
+        }
     }
 }

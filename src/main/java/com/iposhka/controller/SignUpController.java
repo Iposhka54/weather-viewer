@@ -1,6 +1,8 @@
 package com.iposhka.controller;
 
 import com.iposhka.dto.CreateUserDto;
+import com.iposhka.exception.DatabaseException;
+import com.iposhka.exception.UserAlreadyExistException;
 import com.iposhka.service.AuthenticationService;
 import jakarta.validation.Valid;
 import org.hibernate.exception.ConstraintViolationException;
@@ -36,9 +38,11 @@ public class SignUpController {
         try {
             authService.signIn(userDto);
             return "redirect:/sign-in";
-        } catch (ConstraintViolationException e){
-            bindingResult.rejectValue("username", "error.username", "A user with this username already exists");
+        } catch (UserAlreadyExistException e){
+            bindingResult.rejectValue("username", "error.username", e.getMessage());
             model.addAttribute("bindingResult", bindingResult);
+            return "/sign-up";
+        }catch (DatabaseException e){
             return "/sign-up";
         }
     }
