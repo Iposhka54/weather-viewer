@@ -1,7 +1,7 @@
 package com.iposhka.mapper;
 
 import com.iposhka.dto.CreateUserDto;
-import com.iposhka.dto.UserDto;
+import com.iposhka.dto.UserLoginDto;
 import com.iposhka.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,8 +13,8 @@ public interface UserMapper {
     User toEntity(CreateUserDto dto);
 
     @Mapping(source = "username", target = "login")
-    User toEntity(UserDto dto);
+    User toEntity(UserLoginDto dto);
 
     @Mapping(source = "login", target = "username")
-    UserDto toDto(User entity);
+    UserLoginDto toDto(User entity);
 }

@@ -1,6 +1,7 @@
 package com.iposhka.controller;
 
-import com.iposhka.dto.UserDto;
+import com.iposhka.dto.SessionDto;
+import com.iposhka.dto.UserLoginDto;
 import com.iposhka.service.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -19,13 +20,13 @@ public class SignInController {
     }
 
     @GetMapping("/sign-in")
-    public String signIn(@ModelAttribute("userDto") UserDto user) {
+    public String signIn(@ModelAttribute("userDto") UserLoginDto user) {
         return "sign-in";
     }
 
     @PostMapping("/sign-in")
     public String signIn(@ModelAttribute("userDto")
-                         @Valid UserDto userDto,
+                         @Valid UserLoginDto userLoginDto,
                          BindingResult bindingResult,
                          Model model) {
         if(bindingResult.hasErrors()){
@@ -33,9 +34,9 @@ public class SignInController {
             return "/sign-in";
         }
 
-        UserDto user = authService.login(userDto);
+        UserLoginDto user = authService.login(userLoginDto);
 
-
+        SessionDto sessionDto = authService.openSession(user);
 
         return "/home";
     }

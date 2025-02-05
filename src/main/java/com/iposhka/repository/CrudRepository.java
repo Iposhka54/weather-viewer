@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface CrudRepository<ID extends Serializable, E> {
 
-    E save(E entity);
+    void save(E entity);
 
     Optional<E> findById(ID id);
 

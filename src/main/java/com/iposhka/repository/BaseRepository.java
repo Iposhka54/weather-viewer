@@ -26,12 +26,11 @@ public abstract class BaseRepository<ID extends Serializable, E >
     }
 
     @Override
-    public E save(E entity){
+    public void save(E entity){
         try{
             Session session = sessionFactory.getCurrentSession();
             session.persist(entity);
 
-            return entity;
         }catch(ConstraintViolationException e){
             throw new ConstraintException("Cannot saved entity");
         }

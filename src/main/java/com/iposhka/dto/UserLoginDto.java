@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserLoginDto {
     private Integer id;
 
     @NotNull(message = "Username cannot be empty")

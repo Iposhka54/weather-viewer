@@ -2,7 +2,7 @@ package com.iposhka.service;
 
 import com.iposhka.dto.CreateUserDto;
 import com.iposhka.dto.SessionDto;
-import com.iposhka.dto.UserDto;
+import com.iposhka.dto.UserLoginDto;
 import com.iposhka.exception.DatabaseException;
 import com.iposhka.exception.InvalidCredentialsException;
 import com.iposhka.exception.UserAlreadyExistException;
@@ -15,17 +15,17 @@ import jakarta.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final SessionService sessionService;
 
-    public AuthenticationService(UserRepository userRepository, UserMapper userMapper){
+    public AuthenticationService(UserRepository userRepository, UserMapper userMapper, SessionService sessionService){
 
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.sessionService = sessionService;
     }
 
     @Transactional
@@ -42,17 +42,20 @@ public class AuthenticationService {
         }
     }
 
-    public UserDto login(UserDto dto){
-        Optional<User> maybeUser = userRepository.findByLogin(dto.getUsername());
-
-        User user = maybeUser.orElseThrow(() -> new UserNotFoundException("User with that login not found"));
+    @Transactional
+    public UserLoginDto login(UserLoginDto dto){
+        User user = userRepository.findByLogin(dto.getUsername())
+                .orElseThrow(()
+                        -> new UserNotFoundException("User with that login not found"));
 
         if(!CryptUtil.checkPassword(dto.getPassword(), user.getPassword())){
             throw new InvalidCredentialsException("Password is not correct");
         }
 
-        user.setPassword(dto.getPassword());
-
         return userMapper.toDto(user);
+    }
+
+    public SessionDto openSession(UserLoginDto userLoginDto) {
+        return sessionService.findOrCreateSession(userLoginDto);
     }
 }
