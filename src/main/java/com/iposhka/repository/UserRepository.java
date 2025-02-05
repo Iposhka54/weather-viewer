@@ -2,6 +2,7 @@ package com.iposhka.repository;
 
 import com.iposhka.exception.DatabaseException;
 import com.iposhka.model.User;
+import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,7 +25,10 @@ public class UserRepository extends BaseRepository<Integer, User> {
                     .getSingleResult();
 
             return Optional.ofNullable(entity);
-        }catch (Exception e){
+        }catch (NoResultException e){
+            return Optional.empty();
+        }
+        catch (Exception e){
             throw new DatabaseException("Any problem with database");
         }
     }

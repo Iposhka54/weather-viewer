@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Weather Viewer – Homepage</title>
@@ -10,13 +10,13 @@
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" th:href="@{/home}">
             <img src="/images/weather-app.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
             Weather Tracker
         </a>
         <div class="d-flex align-items-center">
-            <span class="navbar-text me-3">zhukovsd</span>
-            <button class="btn btn-outline-danger">Sign out</button>
+            <span class="navbar-text me-3" th:text="${user.username}"></span>
+            <button class="btn btn-outline-danger" th:href="@{/auth/sign-out}">Sign out</button>
         </div>
     </div>
 </nav>

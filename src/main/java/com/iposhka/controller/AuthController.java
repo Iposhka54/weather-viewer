@@ -4,6 +4,7 @@ import com.iposhka.dto.CreateUserDto;
 import com.iposhka.dto.SessionDto;
 import com.iposhka.dto.UserLoginDto;
 import com.iposhka.exception.UserAlreadyExistException;
+import com.iposhka.exception.UserNotFoundException;
 import com.iposhka.service.AuthenticationService;
 import com.iposhka.service.SessionService;
 import jakarta.servlet.http.Cookie;
@@ -27,7 +28,7 @@ public class AuthController {
     }
 
     @GetMapping("/sign-up")
-    public String signUp(@ModelAttribute("createUser") CreateUserDto userDto) {
+    public String signUp(@ModelAttribute("createUser") CreateUserDto userDto){
         return "sign-up";
     }
 
@@ -68,7 +69,14 @@ public class AuthController {
             return "/sign-in";
         }
 
-        UserLoginDto user = authService.login(userLoginDto);
+        UserLoginDto user;
+        try{
+            user = authService.login(userLoginDto);
+        }catch (UserNotFoundException e){
+            bindingResult.rejectValue("username", "error.username", e.getMessage());
+            model.addAttribute("bindingResult", bindingResult);
+            return "/sign-in";
+        }
 
         SessionDto sessionDto = authService.openSession(user);
 
@@ -79,6 +87,6 @@ public class AuthController {
 
         res.addCookie(cookie);
 
-        return "redirect:/app/home";
+        return "redirect:/home";
     }
 }
