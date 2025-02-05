@@ -19,14 +19,23 @@
 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <form action="#" class="mt-4">
+            <form th:action="@{/sign-in}" th:method="post" th:object="${userDto}" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required value=""/>
+                    <input type="text" class="form-control" id="username" name="username" required
+                           th:value="${userDto.username}" th:field="*{username}"/>
+
+                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required value=""/>
+                    <input type="password" class="form-control" id="password" name="password"
+                           required
+                           minlength="8"
+                           maxlength="128"
+                           th:field="*{password}"/>
+
+                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
                 </div>
 
                 <input type="hidden" name="redirect_to" value="http://localhost/"/>

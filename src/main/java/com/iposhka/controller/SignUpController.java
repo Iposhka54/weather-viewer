@@ -1,11 +1,8 @@
 package com.iposhka.controller;
 
 import com.iposhka.dto.CreateUserDto;
-import com.iposhka.exception.DatabaseException;
-import com.iposhka.exception.UserAlreadyExistException;
 import com.iposhka.service.AuthenticationService;
 import jakarta.validation.Valid;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +19,7 @@ public class SignUpController {
     }
 
     @GetMapping("/sign-up")
-    public String signIn(@ModelAttribute("createUser") CreateUserDto userDto) {
+    public String signUp(@ModelAttribute("createUser") CreateUserDto userDto) {
         return "sign-up";
     }
 
@@ -35,7 +32,7 @@ public class SignUpController {
             model.addAttribute("bindingResult", bindingResult);
             return "/sign-up";
         }
-        authService.signIn(userDto);
+         authService.signUp(userDto);
         return "redirect:/sign-in";
     }
 }

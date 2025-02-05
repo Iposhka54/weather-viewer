@@ -22,7 +22,12 @@
             <form th:action="@{/sign-up}" method="post" class="mt-4" onsubmit="validatePasswords(event)" th:object="${createUser}">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required th:value="${createUser.username}" th:field="*{username}"/>
+                    <input type="text" class="form-control" id="username" name="username"
+                           required
+                           minlength="3"
+                           maxlength="128"
+                           th:value="${createUser.username}"
+                           th:field="*{username}"/>
                     <div class="text-danger mt-1" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
                 </div>
                 <div class="mb-3">
