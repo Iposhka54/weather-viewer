@@ -19,7 +19,7 @@
 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <form th:action="@{/sign-up}" method="post" class="mt-4" onsubmit="validatePasswords(event)" th:object="${createUser}">
+            <form th:action="@{/auth/sign-up}" method="post" class="mt-4" onsubmit="validatePasswords(event)" th:object="${createUser}">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name="username"
@@ -53,7 +53,7 @@
                 <input type="hidden" name="redirect_to" value="http://localhost/"/>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
-                <p class="mt-2 text-center">Already have an account? <a th:href="@{/sign-in}">Sign in here</a></p>
+                <p class="mt-2 text-center">Already have an account? <a th:href="@{/auth/sign-in}">Sign in here</a></p>
             </form>
         </div>
     </div>
