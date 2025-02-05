@@ -47,4 +47,10 @@ public class SessionService {
         });
         return sessionMapper.toDto(sessionEntity);
     }
+
+    @Transactional
+    public Optional<SessionDto> findByUUID(String uuid){
+        Optional<Session> maybeSession = sessionRepository.findByUUID(uuid);
+        return maybeSession.map(sessionMapper::toDto);
+    }
 }

@@ -12,6 +12,7 @@ import com.iposhka.model.User;
 import com.iposhka.repository.UserRepository;
 import com.iposhka.util.CryptUtil;
 import jakarta.transaction.Transactional;
+import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
@@ -33,13 +34,7 @@ public class AuthenticationService {
         User entity = userMapper.toEntity(userDto);
         String cryptPassword = CryptUtil.crypt(entity.getPassword());
         entity.setPassword(cryptPassword);
-        try{
-            userRepository.save(entity);
-        }catch (ConstraintViolationException e){
-            throw new UserAlreadyExistException("A user with this username already exists");
-        }catch (Exception e){
-            throw new DatabaseException("Any problems with database");
-        }
+        userRepository.save(entity);
     }
 
     @Transactional

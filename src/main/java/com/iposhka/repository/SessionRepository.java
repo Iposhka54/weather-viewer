@@ -30,4 +30,17 @@ public class SessionRepository extends BaseRepository<Integer, Session>{
             throw new DatabaseException("Any problems with database in find session by user id");
         }
     }
+
+    public Optional<Session> findByUUID(String uuid){
+        try{
+            org.hibernate.Session session = sessionFactory.getCurrentSession();
+
+            Session entity = session.createQuery("SELECT s FROM Session AS s WHERE s.id = :id", Session.class)
+                    .setParameter("id", uuid)
+                    .getSingleResult();
+            return Optional.of(entity);
+        }catch (NoResultException e){
+            return Optional.empty();
+        }
+    }
 }

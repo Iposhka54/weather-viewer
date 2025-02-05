@@ -3,6 +3,7 @@ package com.iposhka.controller;
 import com.iposhka.dto.CreateUserDto;
 import com.iposhka.dto.SessionDto;
 import com.iposhka.dto.UserLoginDto;
+import com.iposhka.exception.UserAlreadyExistException;
 import com.iposhka.service.AuthenticationService;
 import com.iposhka.service.SessionService;
 import jakarta.servlet.http.Cookie;
@@ -39,7 +40,15 @@ public class AuthController {
             model.addAttribute("bindingResult", bindingResult);
             return "/sign-up";
         }
-        authService.signUp(userDto);
+
+        try{
+            authService.signUp(userDto);
+        }catch (UserAlreadyExistException e){
+            bindingResult.rejectValue("username", "error.username", e.getMessage());
+            model.addAttribute("bindingResult", bindingResult);
+            return "/sign-up";
+        }
+
         return "redirect:/sign-in";
     }
 
@@ -70,6 +79,6 @@ public class AuthController {
 
         res.addCookie(cookie);
 
-        return "redirect:/home";
+        return "redirect:/app/home";
     }
 }

@@ -2,10 +2,11 @@ package com.iposhka.repository;
 
 import com.iposhka.exception.ConstraintException;
 import com.iposhka.exception.DatabaseException;
+import com.iposhka.exception.UserAlreadyExistException;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.validation.ConstraintViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -32,7 +33,7 @@ public abstract class BaseRepository<ID extends Serializable, E >
             session.persist(entity);
 
         }catch(ConstraintViolationException e){
-            throw new ConstraintException("Cannot saved entity");
+            throw new UserAlreadyExistException("User with this username already exist");
         }
         catch(Exception e){
             throw new DatabaseException("Problems with saving in database");

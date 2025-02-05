@@ -1,5 +1,6 @@
 package com.iposhka.config;
 
+import com.iposhka.filter.AuthInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
@@ -20,10 +18,12 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 @EnableWebMvc
 public class ApplicationConfig implements WebMvcConfigurer {
     private final ApplicationContext context;
+    private final AuthInterceptor authInterceptor;
 
     @Autowired
-    public ApplicationConfig(ApplicationContext context){
+    public ApplicationConfig(ApplicationContext context, AuthInterceptor authInterceptor){
         this.context = context;
+        this.authInterceptor = authInterceptor;
     }
 
     @Bean
@@ -53,11 +53,22 @@ public class ApplicationConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry){
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
+        resolver.setCharacterEncoding("UTF-8");
         registry.viewResolver(resolver);
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor)
+                .excludePathPatterns("/auth/sign-in",
+                        "/auth/sign-up",
+                        "/images/**",
+                        "/css/**",
+                        "/static/**");
     }
 }
