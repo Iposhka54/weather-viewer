@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class SessionRepository extends BaseRepository<Integer, Session>{
@@ -31,7 +32,7 @@ public class SessionRepository extends BaseRepository<Integer, Session>{
         }
     }
 
-    public Optional<Session> findByUUID(String uuid){
+    public Optional<Session> findByUUID(UUID uuid){
         try{
             org.hibernate.Session session = sessionFactory.getCurrentSession();
 

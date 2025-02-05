@@ -49,7 +49,7 @@ public class SessionService {
     }
 
     @Transactional
-    public Optional<SessionDto> findByUUID(String uuid){
+    public Optional<SessionDto> findByUUID(UUID uuid){
         Optional<Session> maybeSession = sessionRepository.findByUUID(uuid);
         return maybeSession.map(sessionMapper::toDto);
     }

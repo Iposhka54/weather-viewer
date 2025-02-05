@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.WebUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -27,7 +28,12 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        Optional<SessionDto> maybeSession = checkSession(cookie);
+        Optional<SessionDto> maybeSession;
+        try{
+            maybeSession = checkSession(cookie);
+        }catch (IllegalArgumentException e){
+            maybeSession = Optional.empty();
+        }
 
         if(maybeSession.isEmpty()){
             cookie.setMaxAge(0);
@@ -42,7 +48,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     private Optional<SessionDto> checkSession(Cookie cookie){
-        String id = cookie.getValue();
+        UUID id = UUID.fromString(cookie.getValue());
         if (id == null){
             return Optional.empty();
         }
