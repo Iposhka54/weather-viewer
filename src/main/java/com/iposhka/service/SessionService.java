@@ -8,12 +8,10 @@ import com.iposhka.model.Session;
 import com.iposhka.model.User;
 import com.iposhka.repository.SessionRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +20,8 @@ public class SessionService {
     private final SessionRepository sessionRepository;
     private final UserMapper userMapper;
     private final SessionMapper sessionMapper;
-    private final int sessionTimeout = 300;
+    @Getter
+    private static final int sessionTimeout = 300;
 
     public SessionService(SessionRepository sessionRepository, UserMapper userMapper, SessionMapper sessionMapper) {
         this.sessionRepository = sessionRepository;
