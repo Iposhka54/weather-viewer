@@ -23,6 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie cookie = WebUtils.getCookie(request, "sessionId");
+
         if(cookie == null){
             response.sendRedirect("/auth/sign-in");
             return false;
@@ -45,7 +46,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         SessionDto session = maybeSession.get();
-        request.setAttribute("user", session.getUser());
+        String path = request.getServletPath();
+
+        if("/home".equals(path)){
+            request.setAttribute("user", session.getUser());
+        }
 
         return true;
     }
