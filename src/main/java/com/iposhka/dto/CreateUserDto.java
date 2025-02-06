@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.Length;
 public class CreateUserDto {
     @NotNull(message = "Username cannot be empty")
     @Length(min = 3, max = 128, message = "Username must be between 3 and 128 characters")
-    @Pattern(regexp = "^[A-Za-z0-9_-]{3,128}$|^[A-Za-z0-9]+(?:[A-Za-z0-9\\.])*@[A-Za-z0-9]+(?:[A-Za-z0-9\\\\.])*\\\\.[A-Za-z]{2,}$", message = "Username need include latin symbols, digits and symbols: -_")
+    @Pattern(regexp = "^[A-Za-z0-9_-]{3,128}$|^[A-Za-z0-9]+(?:[A-Za-z0-9\\.])*@[A-Za-z0-9]+(?:[A-Za-z0-9\\.])*\\.[A-Za-z]{2,}$", message = "Username need include latin symbols, digits and symbols: -_")
     private String username;
 
     @NotNull(message = "Password cannot be empty")
