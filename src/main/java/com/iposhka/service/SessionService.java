@@ -31,17 +31,19 @@ public class SessionService {
 
     @Transactional
     public SessionDto findOrCreateSession(UserLoginDto userLoginDto) {
-
         Optional<Session> maybeSession = sessionRepository.findByUserId(userLoginDto.getId());
-        Session sessionEntity = maybeSession.orElseGet(() -> {
-            User entity = userMapper.toEntity(userLoginDto);
 
+        Session sessionEntity = maybeSession.map(session -> {
+            session.setExpiresAt(LocalDateTime.now().plusSeconds(sessionTimeout));
+            sessionRepository.save(session);
+            return session;
+        }).orElseGet(() -> {
+            User entity = userMapper.toEntity(userLoginDto);
             Session session = Session.builder()
                     .id(UUID.randomUUID())
                     .user(entity)
                     .expiresAt(LocalDateTime.now().plusSeconds(sessionTimeout))
                     .build();
-
             sessionRepository.save(session);
             return session;
         });
@@ -49,13 +51,13 @@ public class SessionService {
     }
 
     @Transactional
-    public Optional<SessionDto> findByUUID(UUID uuid){
+    public Optional<SessionDto> findByUUID(UUID uuid) {
         Optional<Session> maybeSession = sessionRepository.findByUUID(uuid);
         return maybeSession.map(sessionMapper::toDto);
     }
 
     @Transactional
-    public void deleteByUUID(UUID uuid){
+    public void deleteByUUID(UUID uuid) {
         sessionRepository.delete(uuid);
     }
 }
