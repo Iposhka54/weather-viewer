@@ -16,6 +16,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
@@ -52,5 +54,9 @@ public class AuthenticationService {
 
     public SessionDto openSession(UserLoginDto userLoginDto) {
         return sessionService.findOrCreateSession(userLoginDto);
+    }
+
+    public void deleteSessionByUUID(UUID uuid){
+        sessionService.deleteByUUID(uuid);
     }
 }

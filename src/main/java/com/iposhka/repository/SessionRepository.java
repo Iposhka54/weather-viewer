@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class SessionRepository extends BaseRepository<Integer, Session>{
+public class SessionRepository extends BaseRepository<UUID, Session>{
     public SessionRepository(SessionFactory sessionFactory) {
         super(Session.class, sessionFactory);
     }

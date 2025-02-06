@@ -8,8 +8,10 @@ import com.iposhka.exception.UserNotFoundException;
 import com.iposhka.service.AuthenticationService;
 import com.iposhka.service.SessionService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,14 +19,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.WebUtils;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthenticationService authService;
+    private final Logger log;
 
-    public AuthController(AuthenticationService authService) {
+    public AuthController(AuthenticationService authService, Logger log) {
         this.authService = authService;
+        this.log = log;
     }
 
     @GetMapping("/sign-up")
@@ -88,5 +95,21 @@ public class AuthController {
         res.addCookie(cookie);
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/sign-out")
+    public String signOut(HttpServletRequest req, HttpServletResponse res){
+        Cookie cookie = WebUtils.getCookie(req, "sessionId");
+        try{
+            UUID uuid = UUID.fromString(cookie.getValue());
+
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            res.addCookie(cookie);
+
+            authService.deleteSessionByUUID(uuid);
+        }catch (Exception e){}
+
+        return "redirect:/auth/sign-in";
     }
 }

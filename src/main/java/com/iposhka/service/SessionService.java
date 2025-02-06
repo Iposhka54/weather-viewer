@@ -53,4 +53,9 @@ public class SessionService {
         Optional<Session> maybeSession = sessionRepository.findByUUID(uuid);
         return maybeSession.map(sessionMapper::toDto);
     }
+
+    @Transactional
+    public void deleteByUUID(UUID uuid){
+        sessionRepository.delete(uuid);
+    }
 }
