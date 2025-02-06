@@ -77,28 +77,14 @@ public class AuthController {
             return "/sign-in";
         }
 
-        UserLoginDto user;
-        try{
-            user = authService.login(userLoginDto);
-        }catch (InvalidCredentialsException e){
-            bindingResult.rejectValue("password", "error.password", e.getMessage());
-            model.addAttribute("bindingResult", bindingResult);
-            return "/sign-in";
+        try {
+            UserLoginDto user = authService.login(userLoginDto);
+            openSessionAndSetCookie(user, res);
+        } catch (InvalidCredentialsException e) {
+            return handleException(bindingResult, model, "password", e.getMessage(), "sign-in");
+        } catch (UserNotFoundException e) {
+            return handleException(bindingResult, model, "username", e.getMessage(), "sign-in");
         }
-        catch (UserNotFoundException e){
-            bindingResult.rejectValue("username", "error.username", e.getMessage());
-            model.addAttribute("bindingResult", bindingResult);
-            return "/sign-in";
-        }
-
-        SessionDto sessionDto = authService.openSession(user);
-
-        Cookie cookie = new Cookie("sessionId", sessionDto.getId().toString());
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(SessionService.getSessionTimeout());
-
-        res.addCookie(cookie);
 
         return "redirect:/home";
     }
@@ -106,16 +92,43 @@ public class AuthController {
     @GetMapping("/sign-out")
     public String signOut(HttpServletRequest req, HttpServletResponse res){
         Cookie cookie = WebUtils.getCookie(req, "sessionId");
-        try{
-            UUID uuid = UUID.fromString(cookie.getValue());
+        if (cookie != null){
+            try{
+                UUID uuid = UUID.fromString(cookie.getValue());
 
-            cookie.setMaxAge(0);
-            cookie.setPath("/");
-            res.addCookie(cookie);
+                clearCookie(cookie, res);
 
-            authService.deleteSessionByUUID(uuid);
-        }catch (Exception e){}
+                authService.deleteSessionByUUID(uuid);
+            }catch (Exception e){
+                log.error("Cookie or session not found");
+            }
+        }
 
         return "redirect:/auth/sign-in";
+    }
+
+    private void openSessionAndSetCookie(UserLoginDto user, HttpServletResponse res) {
+        SessionDto sessionDto = authService.openSession(user);
+        Cookie cookie = new Cookie("sessionId", sessionDto.getId().toString());
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(SessionService.getSessionTimeout());
+        res.addCookie(cookie);
+    }
+
+    private void clearCookie(Cookie cookie, HttpServletResponse res) {
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        res.addCookie(cookie);
+    }
+
+    private String handleBindingErrors(Model model, BindingResult bindingResult, String viewName) {
+        model.addAttribute("bindingResult", bindingResult);
+        return viewName;
+    }
+
+    private String handleException(BindingResult bindingResult, Model model, String field, String message, String viewName) {
+        bindingResult.rejectValue(field, "error." + field, message);
+        return handleBindingErrors(model, bindingResult, viewName);
     }
 }
