@@ -3,6 +3,7 @@ package com.iposhka.controller;
 import com.iposhka.dto.CreateUserDto;
 import com.iposhka.dto.SessionDto;
 import com.iposhka.dto.UserLoginDto;
+import com.iposhka.exception.InvalidCredentialsException;
 import com.iposhka.exception.UserAlreadyExistException;
 import com.iposhka.exception.UserNotFoundException;
 import com.iposhka.service.AuthenticationService;
@@ -79,7 +80,12 @@ public class AuthController {
         UserLoginDto user;
         try{
             user = authService.login(userLoginDto);
-        }catch (UserNotFoundException e){
+        }catch (InvalidCredentialsException e){
+            bindingResult.rejectValue("password", "error.password", e.getMessage());
+            model.addAttribute("bindingResult", bindingResult);
+            return "/sign-in";
+        }
+        catch (UserNotFoundException e){
             bindingResult.rejectValue("username", "error.username", e.getMessage());
             model.addAttribute("bindingResult", bindingResult);
             return "/sign-in";
