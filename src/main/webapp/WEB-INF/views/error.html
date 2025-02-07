@@ -10,7 +10,7 @@
 
 <div class="container text-center mt-5">
     <h1 class="display-4">Oops! Something Went Wrong</h1>
-    <p class="lead" th:text="@{bindingResult.getFieldError('error').getDefaultMessage()}"></p>
+    <p class="lead" th:text="${error}"></p>
     <a class="btn btn-primary" th:href="@{/home}">Go to Home</a>
 </div>
 

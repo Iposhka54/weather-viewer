@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.WebUtils;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@SessionAttributes("user")
 public class AuthInterceptor implements HandlerInterceptor {
     private final SessionService sessionService;
 
@@ -48,7 +50,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         SessionDto session = maybeSession.get();
         String path = request.getServletPath();
 
-        if("/home".equals(path)){
+        if("/home".equals(path) || "/search".equals(path)){
             request.setAttribute("user", session.getUser());
         }
 

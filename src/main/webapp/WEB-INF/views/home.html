@@ -23,16 +23,16 @@
 
 <section id="page-content">
     <div class="container mt-4">
-        <div class="d-flex my-4">
+        <form th:action="@{/search}" th:method="GET" class="d-flex my-4">
             <div class="input-group location-search-input-group me-3">
-                <input class="form-control" type="text" name="name" placeholder="Enter location" required>
+                <input class="form-control" type="text" name="location" placeholder="Enter location" required>
                 <button class="btn btn-outline-secondary btn-sm clear-input-button" type="button"
                         onclick="this.previousElementSibling.value=''">
                     &times;
                 </button>
             </div>
-            <button class="btn btn-outline-success">Search</button>
-        </div>
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
 
         <div>
             <div class="row">
