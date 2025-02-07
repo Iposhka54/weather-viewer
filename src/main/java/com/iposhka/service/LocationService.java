@@ -1,6 +1,8 @@
 package com.iposhka.service;
 
 import com.iposhka.dto.GeoResponceDto;
+import com.iposhka.dto.LocationResponseDto;
+import com.iposhka.dto.WeatherResponceDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,5 +24,19 @@ public class LocationService {
         }
 
         return weatherApiService.getGeoCoordinates(location, LIMIT);
+    }
+
+    public List<WeatherResponceDto> getWeatherByLocations(List<LocationResponseDto> locations){
+        if(locations.isEmpty()){
+            return Collections.emptyList();
+        }
+
+        List<WeatherResponceDto> weather = new ArrayList<>();
+
+        for (var location : locations) {
+            weather.add(weatherApiService.getWeatherByLocations(location));
+        }
+
+        return weather;
     }
 }

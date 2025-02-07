@@ -36,93 +36,22 @@
 
         <div>
             <div class="row">
-                <div class="col-12 col-lg-3 col-md-6 mb-4">
+                <div class="col-12 col-lg-3 col-md-6 mb-4" th:each="weather : ${weathers}">
                     <div class="card h-100 position-relative weather-card">
                         <div class="position-absolute weather-card-delete-form">
                             <button class="btn-close" aria-label="Delete"></button>
                         </div>
                         <img class="card-img-top img-fluid"
-                             src="https://openweathermap.org/img/wn/01n@4x.png"
+                             th:src="@{'https://openweathermap.org/img/wn/' + ${weather.getWeatherInfo[0].getIconCode()} + '@4x.png'}"
                              alt="Weather icon">
                         <div class="card-body d-flex flex-column">
-                            <h1 class="card-text">7°C</h1>
-                            <h3 class="card-title">Tbilisi, GE</h3>
-                            <p class="card-text mb-1">Feels like <span>2</span>°C.
-                                <span>Clear sky</span>
+                            <h1 class="card-text" th:text="${weather.weather.temp} + '°C'"></h1>
+                            <h3 class="card-title" th:text="${weather.name + ', ' + weather.sys.country}"></h3>
+                            <p class="card-text mb-1">
+                                <span th:text="${weather.weather.feelsLike}"></span>°C.
+                                <span th:text="${weather.weatherInfo[0].description}"></span>
                             </p>
-                            <p class="card-text mb-1">Humidity: 70%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 position-relative weather-card">
-                        <div class="position-absolute weather-card-delete-form">
-                            <button class="btn-close" aria-label="Delete"></button>
-                        </div>
-                        <img class="card-img-top img-fluid"
-                             src="https://openweathermap.org/img/wn/04n@4x.png"
-                             alt="Weather icon">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="card-text">-4°C</h1>
-                            <h3 class="card-title">Saint Petersburg, RU</h3>
-                            <p class="card-text mb-1">Feels like <span>-11</span>°C.
-                                <span>Broken clouds</span>
-                            </p>
-                            <p class="card-text mb-1">Humidity: 75%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 position-relative weather-card">
-                        <div class="position-absolute weather-card-delete-form">
-                            <button class="btn-close" aria-label="Delete"></button>
-                        </div>
-                        <img class="card-img-top img-fluid"
-                             src="https://openweathermap.org/img/wn/01n@4x.png"
-                             alt="Weather icon">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="card-text">-1°C</h1>
-                            <h3 class="card-title">Seoul, KR</h3>
-                            <p class="card-text mb-1">Feels like <span>-5</span>°C.
-                                <span>Clear sky</span>
-                            </p>
-                            <p class="card-text mb-1">Humidity: 55%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 position-relative weather-card">
-                        <div class="position-absolute weather-card-delete-form">
-                            <button class="btn-close" aria-label="Delete"></button>
-                        </div>
-                        <img class="card-img-top img-fluid"
-                             src="https://openweathermap.org/img/wn/13n@4x.png"
-                             alt="Weather icon">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="card-text">-4°C</h1>
-                            <h3 class="card-title">Severodvinsk, RU</h3>
-                            <p class="card-text mb-1">Feels like <span>-8</span>°C.
-                                <span>Light snow</span>
-                            </p>
-                            <p class="card-text mb-1">Humidity: 81%</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 position-relative weather-card">
-                        <div class="position-absolute weather-card-delete-form">
-                            <button class="btn-close" aria-label="Delete"></button>
-                        </div>
-                        <img class="card-img-top img-fluid"
-                             src="https://openweathermap.org/img/wn/04n@4x.png"
-                             alt="Weather icon">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="card-text">21°C</h1>
-                            <h3 class="card-title">Sydney, AU</h3>
-                            <p class="card-text mb-1">Feels like <span>22</span>°C.
-                                <span>Overcast clouds</span>
-                            </p>
-                            <p class="card-text mb-1">Humidity: 85%</p>
+                            <p class="card-text mb-1">Humidity: <span th:text="${weather.weather.humidity}"></span>%</p>
                         </div>
                     </div>
                 </div>

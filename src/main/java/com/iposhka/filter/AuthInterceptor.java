@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-@SessionAttributes("user")
 public class AuthInterceptor implements HandlerInterceptor {
     private final SessionService sessionService;
 

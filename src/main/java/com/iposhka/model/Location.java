@@ -2,6 +2,7 @@ package com.iposhka.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.engine.spi.CascadingAction;
 
 import java.math.BigDecimal;
 
@@ -21,7 +22,7 @@ public class Location {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

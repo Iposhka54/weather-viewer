@@ -28,7 +28,7 @@ public class User {
     private String password;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Location> locations = new ArrayList<>();
 
     @Builder.Default

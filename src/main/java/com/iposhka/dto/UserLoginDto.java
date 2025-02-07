@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -29,4 +31,6 @@ public class UserLoginDto {
     @Pattern(regexp = ".*[!()\\-_/\\@.*?^%$#~`+|].*", message = "Password must contain at least one special character (!()-_/\\@.*?^%$#~`+|)")
     @Pattern(regexp = "^[A-Za-z0-9!()\\-_/\\@.*?^%$#`~+|]+$", message = "Password contains invalid characters")
     private String password;
+
+    private List<LocationResponseDto> locations;
 }
