@@ -49,8 +49,9 @@
                            th:field="*{password}"
                            th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
                            oninput="clearError('password')"/>
+
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
                 </div>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
                     <input type="password" class="form-control" id="repeat-password" name="password"

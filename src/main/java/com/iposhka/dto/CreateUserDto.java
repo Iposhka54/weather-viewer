@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserDto {
-    @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
+    @Size(min = 3, max = 128, message = "Username must be between 3 and 128 characters")
     @NotNull(message = "Username cannot be empty")
     @Pattern(regexp = "^[A-Za-z0-9_-]{3,128}$|^[A-Za-z0-9]+(?:[A-Za-z0-9\\.])*@[A-Za-z0-9]+(?:[A-Za-z0-9\\.])*\\.[A-Za-z]{2,}$", message = "Username need include latin symbols, digits and symbols: -_")
     private String username;
