@@ -48,7 +48,7 @@
                             <h1 class="card-text" th:text="${weather.weather.temp} + '°C'"></h1>
                             <h3 class="card-title" th:text="${weather.name + ', ' + weather.sys.country}"></h3>
                             <p class="card-text mb-1">
-                                <span th:text="${weather.weather.feelsLike}"></span>°C.
+                                Feels like <span th:text="${weather.weather.feelsLike}"></span>°C,
                                 <span th:text="${weather.weatherInfo[0].description}"></span>
                             </p>
                             <p class="card-text mb-1">Humidity: <span th:text="${weather.weather.humidity}"></span>%</p>
