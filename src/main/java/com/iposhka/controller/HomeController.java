@@ -2,6 +2,7 @@ package com.iposhka.controller;
 
 import com.iposhka.dto.SessionDto;
 import com.iposhka.dto.UserLoginDto;
+import com.iposhka.service.WeatherApiService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping
 public class HomeController {
+    private final WeatherApiService weatherApiService;
+
+    public HomeController(WeatherApiService weatherApiService) {
+        this.weatherApiService = weatherApiService;
+    }
 
     @GetMapping("/home")
     public String home(HttpServletRequest req,

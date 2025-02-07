@@ -36,12 +36,15 @@ public class AuthController {
     }
 
     @GetMapping("/sign-up")
-    public String signUp(@ModelAttribute("createUser") CreateUserDto userDto){
+    public String signUp(@ModelAttribute("createUser") CreateUserDto userDto,
+                         BindingResult bindingResult,
+                         Model model){
+        model.addAttribute("bindingResult", bindingResult);
         return "sign-up";
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@ModelAttribute("createUser")
+    public String signUpPost(@ModelAttribute("createUser")
                          @Valid CreateUserDto userDto,
                          BindingResult bindingResult,
                          Model model) {
@@ -62,7 +65,10 @@ public class AuthController {
     }
 
     @GetMapping("/sign-in")
-    public String signIn(@ModelAttribute("userLoginDto") UserLoginDto user) {
+    public String signIn(@ModelAttribute("userLoginDto") UserLoginDto user,
+                         BindingResult bindingResult,
+                         Model model){
+        model.addAttribute("bindingResult", bindingResult);
         return "sign-in";
     }
 

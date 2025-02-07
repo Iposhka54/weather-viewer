@@ -1,5 +1,6 @@
 package com.iposhka.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iposhka.filter.AuthInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -30,6 +32,16 @@ public class ApplicationConfig implements WebMvcConfigurer {
     public Logger log(){
         Logger log = LoggerFactory.getLogger(ApplicationConfig.class);
         return log;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        return new ObjectMapper();
+    }
+
+    @Bean
+    public WebClient.Builder webClient(){
+        return WebClient.builder();
     }
 
     @Bean

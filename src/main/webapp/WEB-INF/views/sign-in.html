@@ -17,15 +17,26 @@
 
     <h2 class="text-center mb-5">Sign In</h2>
 
+    <div class="row justify-content-center" th:if="${bindingResult.hasErrors()}">
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="alert alert-danger" role="alert">
+                Invalid username or password.
+            </div>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
             <form th:action="@{/auth/sign-in}" th:method="post" th:object="${userLoginDto}" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name="username" required
-                           th:value="${userLoginDto.username}" th:field="*{username}"/>
+                           th:value="${userLoginDto.username}"
+                           th:field="*{username}"
+                           th:classappend="${#fields.hasErrors('username') ? 'is-invalid' : ''}"
+                           oninput="clearError('username')"/>
 
-                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
@@ -33,9 +44,11 @@
                            required
                            minlength="8"
                            maxlength="128"
-                           th:field="*{password}"/>
+                           th:field="*{password}"
+                           th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+                           oninput="clearError('password')"/>
 
-                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
                 </div>
 
                 <input type="hidden" name="redirect_to" value="http://localhost/"/>
@@ -47,5 +60,19 @@
     </div>
 </div>
 
+<script>
+    function clearError(field) {
+        const input = document.getElementById(field);
+        const invalidFeedback = input.nextElementSibling;
+
+        if (input.classList.contains('is-invalid')) {
+            input.classList.remove('is-invalid');
+        }
+
+        if (invalidFeedback && invalidFeedback.classList.contains('invalid-feedback')) {
+            invalidFeedback.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>

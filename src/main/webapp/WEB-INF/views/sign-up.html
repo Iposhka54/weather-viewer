@@ -17,6 +17,14 @@
 
     <h2 class="text-center mb-5">Sign Up</h2>
 
+    <div class="row justify-content-center" th:if="${bindingResult.hasErrors()}">
+        <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="alert alert-danger" role="alert">
+                Invalid username or password.
+            </div>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
             <form th:action="@{/auth/sign-up}" method="post" class="mt-4" onsubmit="validatePasswords(event)" th:object="${createUser}">
@@ -27,8 +35,10 @@
                            minlength="3"
                            maxlength="128"
                            th:value="${createUser.username}"
-                           th:field="*{username}"/>
-                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
+                           th:field="*{username}"
+                           th:classappend="${#fields.hasErrors('username') ? 'is-invalid' : ''}"
+                           oninput="clearError('username')"/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:text="${bindingResult.getFieldError('username').getDefaultMessage()}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
@@ -36,9 +46,11 @@
                            required
                            minlength="8"
                            maxlength="128"
-                           th:field="*{password}"/>
+                           th:field="*{password}"
+                           th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+                           oninput="clearError('password')"/>
                 </div>
-                <div class="text-danger mt-1" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:text="${bindingResult.getFieldError('password').getDefaultMessage()}"></div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
                     <input type="password" class="form-control" id="repeat-password" name="password"
@@ -61,6 +73,23 @@
 
 </body>
 <script>
+    function clearError(field) {
+        const input = document.getElementById(field);
+        const invalidFeedback = input.nextElementSibling;
+
+        if (input.classList.contains('is-invalid')) {
+            input.classList.remove('is-invalid');
+        }
+
+        if (invalidFeedback && invalidFeedback.classList.contains('invalid-feedback')) {
+            invalidFeedback.style.display = 'none';
+        }
+
+        if (field === 'password' || field === 'repeat-password') {
+            document.getElementById("password-error").textContent = "";
+        }
+    }
+
     function validatePasswords(event) {
         let password = document.getElementById("password").value;
         let repeatPassword = document.getElementById("repeat-password").value;
