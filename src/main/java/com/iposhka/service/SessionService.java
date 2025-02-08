@@ -21,7 +21,7 @@ public class SessionService {
     private final UserMapper userMapper;
     private final SessionMapper sessionMapper;
     @Getter
-    private static final int sessionTimeout = 300;
+    private static final int sessionTimeout = 2678400;
 
     public SessionService(SessionRepository sessionRepository, UserMapper userMapper, SessionMapper sessionMapper) {
         this.sessionRepository = sessionRepository;
