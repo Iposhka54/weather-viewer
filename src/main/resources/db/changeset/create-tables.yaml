@@ -84,6 +84,7 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
+                    unique: true
   - changeSet:
       id: 4
       author: iposhka
