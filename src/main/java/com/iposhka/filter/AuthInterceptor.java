@@ -51,7 +51,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String path = request.getServletPath();
         UserLoginDto user = session.getUser();
 
-        if("/home".equals(path) || "/search".equals(path)){
+        if("/home".equals(path) || "/search".equals(path) || "/locations/add".equals(path)){
             request.setAttribute("user", user);
         }
         if (path.matches("/locations/\\d+")) {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -33,6 +34,16 @@ public class LocationController {
         model.addAttribute("locations", locations);
         model.addAttribute("nameLocation", location);
         return "search-results";
+    }
+
+    @PostMapping("/locations/add")
+    public String addLocation(@RequestParam("lat") BigDecimal latitude,
+                              @RequestParam("lon") BigDecimal longitude,
+                              @RequestParam("name") String name,
+                              HttpServletRequest req){
+        UserLoginDto user = (UserLoginDto) req.getAttribute("user");
+        locationService.addLocation(latitude, longitude, name, user);
+        return "redirect:/home";
     }
 
     @DeleteMapping("/locations/{id}")

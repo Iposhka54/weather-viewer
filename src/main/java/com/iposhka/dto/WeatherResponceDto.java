@@ -21,7 +21,6 @@ public class WeatherResponceDto {
     @JsonProperty("sys")
     private Sys sys;
 
-    @JsonProperty("name")
     private String name;
 
     @Getter

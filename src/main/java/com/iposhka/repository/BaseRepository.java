@@ -33,7 +33,7 @@ public abstract class BaseRepository<ID extends Serializable, E >
             session.persist(entity);
 
         }catch(ConstraintViolationException e){
-            throw new UserAlreadyExistException("User with this username already exist");
+            throw new UserAlreadyExistException("Entity already exist");
         }
         catch(Exception e){
             throw new DatabaseException("Problems with saving in database");

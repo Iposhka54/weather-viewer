@@ -56,7 +56,7 @@ public class AuthController {
         try{
             authService.signUp(userDto);
         }catch (UserAlreadyExistException e){
-            bindingResult.rejectValue("username", "error.username", e.getMessage());
+            bindingResult.rejectValue("username", "error.username", "User already exist");
             model.addAttribute("bindingResult", bindingResult);
             return "/sign-up";
         }
