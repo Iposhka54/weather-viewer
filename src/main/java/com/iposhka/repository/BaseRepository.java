@@ -1,6 +1,5 @@
 package com.iposhka.repository;
 
-import com.iposhka.exception.ConstraintException;
 import com.iposhka.exception.DatabaseException;
 import com.iposhka.exception.UserAlreadyExistException;
 import jakarta.persistence.criteria.CriteriaQuery;

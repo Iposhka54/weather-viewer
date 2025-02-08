@@ -6,6 +6,7 @@ import jakarta.persistence.NoResultException;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,6 +43,19 @@ public class SessionRepository extends BaseRepository<UUID, Session>{
             return Optional.of(entity);
         }catch (NoResultException e){
             return Optional.empty();
+        }catch (Exception e){
+            throw new DatabaseException("Any problems with database in find session by uuid");
+        }
+    }
+
+    public int deleteExpiredSessions(){
+        try{
+            org.hibernate.Session session = sessionFactory.getCurrentSession();
+            return session.createQuery("DELETE FROM Session AS s WHERE s.expiresAt < :timeNow")
+                    .setParameter("timeNow", LocalDateTime.now())
+                    .executeUpdate();
+        }catch (Exception e){
+            throw new DatabaseException("Any problems with database in deleting expires sessions");
         }
     }
 }
