@@ -1,6 +1,7 @@
 package com.iposhka.filter;
 
 import com.iposhka.dto.SessionDto;
+import com.iposhka.dto.UserLoginDto;
 import com.iposhka.service.SessionService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,9 +49,13 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         SessionDto session = maybeSession.get();
         String path = request.getServletPath();
+        UserLoginDto user = session.getUser();
 
         if("/home".equals(path) || "/search".equals(path)){
-            request.setAttribute("user", session.getUser());
+            request.setAttribute("user", user);
+        }
+        if (path.matches("/locations/\\d+")) {
+            request.setAttribute("userId", user.getId());
         }
 
         return true;

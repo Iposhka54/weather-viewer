@@ -10,6 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherResponceDto {
+    private int locationId;
+
     @JsonProperty("weather")
     private WeatherInfo[] weatherInfo;
 

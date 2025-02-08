@@ -3,6 +3,8 @@ package com.iposhka.service;
 import com.iposhka.dto.GeoResponceDto;
 import com.iposhka.dto.LocationResponseDto;
 import com.iposhka.dto.WeatherResponceDto;
+import com.iposhka.repository.LocationRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,9 +15,11 @@ import java.util.List;
 public class LocationService {
     private static final int LIMIT = 5;
     private final WeatherApiService weatherApiService;
+    private final LocationRepository locationRepository;
 
-    public LocationService(WeatherApiService weatherApiService) {
+    public LocationService(WeatherApiService weatherApiService, LocationRepository locationRepository) {
         this.weatherApiService = weatherApiService;
+        this.locationRepository = locationRepository;
     }
 
     public List<GeoResponceDto> getCoordinatesByLocation(String location){
@@ -34,9 +38,16 @@ public class LocationService {
         List<WeatherResponceDto> weather = new ArrayList<>();
 
         for (var location : locations) {
-            weather.add(weatherApiService.getWeatherByLocations(location));
+            WeatherResponceDto weatherLocation = weatherApiService.getWeatherByLocations(location);
+            weatherLocation.setLocationId(location.getId());
+            weather.add(weatherLocation);
         }
 
         return weather;
+    }
+
+    @Transactional
+    public void deleteLocation(int locationId, int userId){
+        locationRepository.deleteByIdAndUserId(locationId, userId);
     }
 }

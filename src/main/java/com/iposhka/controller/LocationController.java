@@ -1,13 +1,14 @@
 package com.iposhka.controller;
 
+import com.iposhka.dto.LocationResponseDto;
 import com.iposhka.dto.UserLoginDto;
 import com.iposhka.service.LocationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class LocationController {
@@ -32,5 +33,14 @@ public class LocationController {
         model.addAttribute("locations", locations);
         model.addAttribute("nameLocation", location);
         return "search-results";
+    }
+
+    @DeleteMapping("/locations/{id}")
+    public String deleteLocation(@PathVariable("id") int locationId,
+                                 HttpServletRequest req){
+        int userId = (int) req.getAttribute("userId");
+
+        locationService.deleteLocation(locationId, userId);
+        return "redirect:/home";
     }
 }
