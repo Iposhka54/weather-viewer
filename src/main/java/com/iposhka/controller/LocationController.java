@@ -1,5 +1,6 @@
 package com.iposhka.controller;
 
+import com.iposhka.dto.GeoResponceDto;
 import com.iposhka.dto.LocationResponseDto;
 import com.iposhka.dto.UserLoginDto;
 import com.iposhka.service.LocationService;
@@ -29,9 +30,11 @@ public class LocationController {
         UserLoginDto user = (UserLoginDto) req.getAttribute("user");
         model.addAttribute("user", user);
 
-        var locations = locationService.getCoordinatesByLocation(location);
+        var responceLocations = locationService.getCoordinatesByLocation(location);
 
-        model.addAttribute("locations", locations);
+        locationService.removeDuplicatesLocations(responceLocations, user.getLocations());
+
+        model.addAttribute("locations", responceLocations);
         model.addAttribute("nameLocation", location);
         return "search-results";
     }

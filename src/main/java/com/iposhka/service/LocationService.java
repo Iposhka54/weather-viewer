@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -75,5 +76,23 @@ public class LocationService {
     @Transactional
     public void deleteLocation(int locationId, int userId){
         locationRepository.deleteByIdAndUserId(locationId, userId);
+    }
+
+    public void removeDuplicatesLocations(List<GeoResponceDto> responceLocations, List<LocationResponseDto> userLocations) {
+        Iterator<GeoResponceDto> iterator = responceLocations.iterator();
+        while(iterator.hasNext()){
+            var resLocation = iterator.next();
+            for (var userLocation : userLocations) {
+                if(isDublicateLocation(userLocation, resLocation)){
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean isDublicateLocation(LocationResponseDto userLocation, GeoResponceDto resLocation) {
+        return userLocation.getLatitude().compareTo(resLocation.getLatitude()) == 0 &&
+                userLocation.getLongitude().compareTo(resLocation.getLongitude()) == 0;
     }
 }
