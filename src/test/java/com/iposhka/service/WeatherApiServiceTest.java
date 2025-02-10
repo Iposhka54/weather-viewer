@@ -8,7 +8,6 @@ import com.iposhka.dto.WeatherResponceDto;
 import com.iposhka.mapper.LocationMapper;
 import com.iposhka.repository.LocationRepository;
 import lombok.SneakyThrows;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +29,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 @WebAppConfiguration
 @SpringJUnitConfig(classes = TestConfig.class)
-class WeatherApiServiceIT {
+class WeatherApiServiceTest {
     @MockitoBean
     private WeatherApiService weatherApiService;
     @Autowired
