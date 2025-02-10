@@ -26,11 +26,18 @@ public class ExceptionController {
     }
 
     @ExceptionHandler({
-            UserAlreadyExistException.class,
+            EntityAlreadyExistException.class,
             UserNotFoundException.class
     })
     public String handleUsersException(Model model, Exception e){
         return addErrorInModelAndReturnErrorPage(model, e.getMessage());
+    }
+
+    @ExceptionHandler({
+            Exception.class
+    })
+    public String handleException(Model model, Exception e){
+        return addErrorInModelAndReturnErrorPage(model, "Sorry for the misunderstanding. Our programmers are already trying to solve this problem");
     }
 
     private String addErrorInModelAndReturnErrorPage(Model model, String message){

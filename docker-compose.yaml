@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:17.2
+    restart: always
+    environment:
+      POSTGRES_DB: weather
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  app:
+    image: iposhka54/weather:latest
+    container_name: weather-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: weather
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

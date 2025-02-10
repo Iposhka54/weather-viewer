@@ -3,17 +3,13 @@ package com.iposhka.service;
 import com.iposhka.dto.CreateUserDto;
 import com.iposhka.dto.SessionDto;
 import com.iposhka.dto.UserLoginDto;
-import com.iposhka.exception.DatabaseException;
 import com.iposhka.exception.InvalidCredentialsException;
-import com.iposhka.exception.UserAlreadyExistException;
 import com.iposhka.exception.UserNotFoundException;
 import com.iposhka.mapper.UserMapper;
 import com.iposhka.model.User;
 import com.iposhka.repository.UserRepository;
 import com.iposhka.util.CryptUtil;
 import jakarta.transaction.Transactional;
-import org.hibernate.HibernateException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -33,6 +29,10 @@ public class AuthenticationService {
 
     @Transactional
     public void signUp(CreateUserDto userDto){
+        if(!userDto.getPassword().equals(userDto.getRepeatedPassword())){
+            throw new InvalidCredentialsException("Passwords don't match");
+        }
+
         User entity = userMapper.toEntity(userDto);
         String cryptPassword = CryptUtil.crypt(entity.getPassword());
         entity.setPassword(cryptPassword);
