@@ -73,7 +73,7 @@ class AuthenticationServiceIT {
         void throwExceptionIfPasswordsDontMatch() {
             String username = "iposhka";
             String password = "Ke12345678!";
-            String repeatedPassword = anyString();
+            String repeatedPassword = "dummy";
 
             CreateUserDto iposhka = CreateUserDto.builder()
                     .username(username)
@@ -131,7 +131,7 @@ class AuthenticationServiceIT {
 
         @Test
         void throwExceptionIfUserNotFound() {
-            String username = anyString();
+            String username = "dummy";
             String password = "Ke1234578!";
 
             UserLoginDto userLoginDto = UserLoginDto.builder()
@@ -158,7 +158,7 @@ class AuthenticationServiceIT {
 
             UserLoginDto userLoginDto = UserLoginDto.builder()
                     .username(username)
-                    .password(anyString())
+                    .password("dummy")
                     .build();
 
             assertThatThrownBy(() -> authService.login(userLoginDto))
