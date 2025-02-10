@@ -4,7 +4,7 @@ import com.iposhka.dto.CreateUserDto;
 import com.iposhka.dto.SessionDto;
 import com.iposhka.dto.UserLoginDto;
 import com.iposhka.exception.InvalidCredentialsException;
-import com.iposhka.exception.UserAlreadyExistException;
+import com.iposhka.exception.EntityAlreadyExistException;
 import com.iposhka.exception.UserNotFoundException;
 import com.iposhka.service.AuthenticationService;
 import com.iposhka.service.SessionService;
@@ -55,7 +55,7 @@ public class AuthController {
 
         try{
             authService.signUp(userDto);
-        }catch (UserAlreadyExistException e){
+        }catch (EntityAlreadyExistException e){
             bindingResult.rejectValue("username", "error.username", "User already exist");
             model.addAttribute("bindingResult", bindingResult);
             return "/sign-up";

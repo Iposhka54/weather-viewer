@@ -26,7 +26,7 @@ public class ExceptionController {
     }
 
     @ExceptionHandler({
-            UserAlreadyExistException.class,
+            EntityAlreadyExistException.class,
             UserNotFoundException.class
     })
     public String handleUsersException(Model model, Exception e){

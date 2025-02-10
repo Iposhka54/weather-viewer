@@ -1,7 +1,7 @@
 package com.iposhka.repository;
 
 import com.iposhka.exception.DatabaseException;
-import com.iposhka.exception.UserAlreadyExistException;
+import com.iposhka.exception.EntityAlreadyExistException;
 import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,7 +32,7 @@ public abstract class BaseRepository<ID extends Serializable, E >
             session.persist(entity);
 
         }catch(ConstraintViolationException e){
-            throw new UserAlreadyExistException("Entity already exist");
+            throw new EntityAlreadyExistException("Entity already exist");
         }
         catch(Exception e){
             throw new DatabaseException("Problems with saving in database");

@@ -2,15 +2,14 @@ package com.iposhka.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import liquibase.integration.spring.SpringLiquibase;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.stereotype.Component;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -19,19 +18,20 @@ import java.util.Properties;
 
 @Component
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties")
-@Profile({"prod", "dev"})
-public class DataSourceConfig {
+@ComponentScan(basePackages = "com.iposhka.config")
+@PropertySource("classpath:application-test.properties")
+@Profile("test")
+public class TestConfig {
     private final Environment environment;
 
-    public DataSourceConfig(Environment environment){
+    public TestConfig(Environment environment) {
         this.environment = environment;
     }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigurer(){
         var configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setLocation(new ClassPathResource("application.properties"));
+        configurer.setLocation(new ClassPathResource("application-test.properties"));
         return configurer;
     }
 
@@ -39,22 +39,11 @@ public class DataSourceConfig {
     public DataSource dataSource(){
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName(environment.getProperty("spring.datasource.driver-class"));
-        String url = environment.getProperty("spring.datasource.url");
-        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setJdbcUrl(environment.getProperty("spring.datasource.url"));
         hikariConfig.setUsername(environment.getProperty("spring.datasource.username"));
-        String pass = environment.getProperty("spring.datasource.password");
-        hikariConfig.setPassword(pass);
+        hikariConfig.setPassword(environment.getProperty("spring.datasource.password"));
         hikariConfig.setMaximumPoolSize(Integer.parseInt(environment.getProperty("spring.datasource.hikari.maximum-pool-size", "10")));
         return new HikariDataSource(hikariConfig);
-    }
-
-    @Bean
-    public SpringLiquibase liquibase(DataSource dataSource){
-        SpringLiquibase liquiBase = new SpringLiquibase();
-        liquiBase.setChangeLog(environment.getProperty("spring.liquebase.change-log"));
-        liquiBase.setDataSource(dataSource);
-        liquiBase.setShouldRun(Boolean.parseBoolean(environment.getProperty("spring.liquebase.enabled", "true")));
-        return liquiBase;
     }
 
     public Properties hibernateProperties(){
