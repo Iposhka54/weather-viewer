@@ -16,7 +16,7 @@ public class SessionCleanupScheduler {
         this.log = log;
     }
 
-    @Scheduled(fixedRate = 15000)
+    @Scheduled(fixedRate = 2678400)
     @Transactional
     public void cleanExpiredSessions(){
         log.debug("Cleanup expired sessions from database");

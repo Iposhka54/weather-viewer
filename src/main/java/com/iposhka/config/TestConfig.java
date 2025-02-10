@@ -18,7 +18,7 @@ import java.util.Properties;
 
 @Component
 @EnableTransactionManagement
-@ComponentScan(basePackages = "com.iposhka.config")
+@ComponentScan(basePackages = "com.iposhka")
 @PropertySource("classpath:application-test.properties")
 @Profile("test")
 public class TestConfig {
