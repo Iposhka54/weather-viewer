@@ -33,6 +33,10 @@ public class AuthenticationService {
 
     @Transactional
     public void signUp(CreateUserDto userDto){
+        if(!userDto.getPassword().equals(userDto.getRepeatedPassword())){
+            throw new InvalidCredentialsException("Passwords don't match");
+        }
+
         User entity = userMapper.toEntity(userDto);
         String cryptPassword = CryptUtil.crypt(entity.getPassword());
         entity.setPassword(cryptPassword);
