@@ -1,4 +1,4 @@
-# Tennis Scoreboard
+# Weather Viewer
 
 ![Overview](https://github.com/VladislavLevchikIsAProger/weather_tracker/assets/153897612/5919a763-bea5-4332-9319-a6942143dfdb)
 
